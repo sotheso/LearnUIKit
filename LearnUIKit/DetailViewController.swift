@@ -19,6 +19,9 @@ class DetailViewController: UIViewController {
         title = SelectedImage
         navigationItem.largeTitleDisplayMode = .never
         
+        // ایجاد دکمه ای برای شیر
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+        
         // سوویفت اجازه ساده از تصویر را نمی دهد بدون آن که آن را بررسی کنیم
         if let ImageToLoad =  SelectedImage {
             ImageView.image = UIImage(named: ImageToLoad)
@@ -34,6 +37,17 @@ class DetailViewController: UIViewController {
         navigationController?.hidesBarsOnTap = false
     }
     
+    // روش اشتراک گذاری
+    @objc  func shareTapped() {
+        guard (ImageView.image?.jpegData(compressionQuality: 0.8)) != nil else {
+            print("Not image  found")
+             return
+        }
+        // کنترل کننده نمای فعالیت کاربر
+        let vc = UIActivityViewController(activityItems: [], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true  )
+    }
 
     /*
     // MARK: - Navigation
